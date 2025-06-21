@@ -1,0 +1,1 @@
+# kazmatics-spotter-assessment
