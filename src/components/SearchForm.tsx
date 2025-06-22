@@ -381,11 +381,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </div>
 
       {/* Flight Legs */}
-      <div className="w-full border  mb-6 flex flex-col  ">
+      <div className="w-full  mb-6 flex flex-col  ">
         {legs.map((leg, index) => (
           <div key={index} className="relative w-full">
             {/* <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center"> */}
-            <div className="relative flex flex-col md:flex-row border gap-4 items-center mb-4">
+            <div className="relative flex flex-col md:flex-row  gap-4 items-center mb-4">
               {/* From Airport */}
               {/* <div className="md:col-span-4 relative"> */}
                <div className="w-full  relative">
@@ -430,15 +430,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   )}
               </div>
 
-              {/* Swap Button */}
-              {/* <div className="md:col-span-1 flex justify-center">
-                <button
-                  onClick={() => swapAirports(index)}
-                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                >
-                  <ArrowLeftRight size={20} />
-                </button>
-              </div> */}
 
               
                <button
@@ -555,34 +546,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
             </div>
           </div>
         ))}
-
-        {/* Return Date for Round Trip */}
-        {/* {tripType === "roundtrip" && (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            <div className="md:col-span-9"></div>
-            <div className="md:col-span-2">
-              <div className="relative">
-                <input
-                  type="date"
-                  placeholder="Return"
-                  value={returnDate}
-                  onChange={(e) => setReturnDate(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                />
-                <Calendar
-                  size={20}
-                  className="absolute right-3 top-3 text-gray-400 pointer-events-none"
-                />
-              </div>
-              {returnDate && (
-                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {formatDate(returnDate)}
-                </div>
-              )}
-            </div>
-          </div>
-        )} */}
-
         {/* Add Flight Button for Multi-city */}
         {tripType === "multicity" && (
           <button
