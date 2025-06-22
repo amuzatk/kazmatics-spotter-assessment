@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Minus, Plus, X } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 
 interface PassengerSelectorProps {
   passengers: {
@@ -42,15 +42,15 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
     },
     {
       key: 'infantsInSeat' as keyof typeof localPassengers,
-      label: 'Infants in seat',
-      description: 'Under 2',
+      label: 'Infants',
+      description: 'In seat',
       min: 0,
       max: 9
     },
     {
       key: 'infantsOnLap' as keyof typeof localPassengers,
-      label: 'Infants on lap',
-      description: 'Under 2',
+      label: 'Infants',
+      description: 'On lap',
       min: 0,
       max: 9
     }
@@ -103,18 +103,6 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
   return (
     <div className="absolute top-full left-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
       <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Passengers
-          </h3>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
         <div className="space-y-4">
           {passengerTypes.map(({ key, label, description, min, max }) => (
             <div key={key} className="flex items-center justify-between">
@@ -159,11 +147,17 @@ const PassengerSelector: React.FC<PassengerSelectorProps> = ({
           </div>
         )}
 
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex justify-between">
+           <button
+            onClick={onClose}
+            className="px-6 py-2 disabled:bg-gray-400 disabled:cursor-not-allowed text-blue-600 font-medium rounded-lg transition-colors"
+          >
+           Cancel
+          </button>
           <button
             onClick={handleDone}
             disabled={!!validationMessage}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+            className="px-6 py-2 disabled:bg-gray-400 disabled:cursor-not-allowed text-blue-600 font-medium rounded-lg transition-colors"
           >
             Done
           </button>

@@ -7,7 +7,10 @@ import {
   Plus,
   X,
   MapPin,
+  ArrowRight,
+  Check,
   ChevronDown,
+  ArrowLeftRight,
 } from "lucide-react";
 import { Airport, SearchParams, FlightLeg } from "../types/flight";
 import { FlightApiService } from "../services/flightApi";
@@ -16,10 +19,14 @@ import PassengerSelector from "./PassengerSelector";
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;
   loading: boolean;
-    defaultValues?: SearchParams | null; 
+  defaultValues?: SearchParams | null;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading,defaultValues }) => {
+const SearchForm: React.FC<SearchFormProps> = ({
+  onSearch,
+  loading,
+  defaultValues,
+}) => {
   const [tripType, setTripType] = useState<
     "roundtrip" | "oneway" | "multicity"
   >("roundtrip");
@@ -42,6 +49,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading,defaultValues
     "economy" | "premium_economy" | "business" | "first"
   >("economy");
   const [isPassengerModalOpen, setIsPassengerModalOpen] = useState(false);
+  const [showTripDropdown, setShowTripDropdown] = useState(false);
+  const [showCabinDropdown, setShowCabinDropdown] = useState(false);
   const [airportSearchResults, setAirportSearchResults] = useState<Airport[]>(
     []
   );
@@ -64,36 +73,36 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading,defaultValues
 
   const tripOptions = [
     { value: "roundtrip", label: "Round trip" },
-    { value: "oneway", label: "One way" },
+    { value: "oneway", label: "One-way" },
     { value: "multicity", label: "Multi-city" },
   ];
 
-//   useEffect(() => {
-//   if (tripType !== "multicity" && legs.length > 1) {
-//     setLegs([legs[0]]);
-//   }
-// }, [tripType]);
+  //   useEffect(() => {
+  //   if (tripType !== "multicity" && legs.length > 1) {
+  //     setLegs([legs[0]]);
+  //   }
+  // }, [tripType]);
 
-useEffect(() => {
-  if (defaultValues) {
-    setTripType(defaultValues.tripType);
-    setLegs(defaultValues.legs);
-    setPassengers(defaultValues.passengers);
-    setCabinClass(defaultValues.cabinClass);
+  useEffect(() => {
+    if (defaultValues) {
+      setTripType(defaultValues.tripType);
+      setLegs(defaultValues.legs);
+      setPassengers(defaultValues.passengers);
+      setCabinClass(defaultValues.cabinClass);
 
-    if (defaultValues.tripType === 'roundtrip') {
-      setReturnDate(defaultValues.legs[0]?.returnDate ?? '');
+      if (defaultValues.tripType === "roundtrip") {
+        setReturnDate(defaultValues.legs[0]?.returnDate ?? "");
+      }
+
+      // Pre-fill airport input fields
+      const initialQuery: Record<string, string> = {};
+      defaultValues.legs.forEach((leg, index) => {
+        initialQuery[`${index}-origin`] = leg.origin;
+        initialQuery[`${index}-destination`] = leg.destination;
+      });
+      setAirportSearchQuery(initialQuery);
     }
-
-    // Pre-fill airport input fields
-    const initialQuery: Record<string, string> = {};
-    defaultValues.legs.forEach((leg, index) => {
-      initialQuery[`${index}-origin`] = leg.origin;
-      initialQuery[`${index}-destination`] = leg.destination;
-    });
-    setAirportSearchQuery(initialQuery);
-  }
-}, [defaultValues]);
+  }, [defaultValues]);
 
   const searchAirports = async (query: string) => {
     if (query.length < 2) {
@@ -239,26 +248,135 @@ useEffect(() => {
     });
   };
 
+  const handleTripTypeChange = (type: typeof tripType) => {
+    setTripType(type);
+
+    setLegs([
+      {
+        origin: "",
+        destination: "",
+        date: "",
+        returnDate: undefined,
+      },
+    ]);
+    setReturnDate("");
+    setAirportSearchQuery({});
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-6xl mx-auto">
-      {/* Trip Type Selector */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {tripOptions.map(({ value, label }) => (
+      {/* Trip Type, Passenger and Class Selection */}
+      <div className="flex flex-wrap md:flex-nowrap items-center gap-4 mb-6">
+        {/* Trip Type Selector */}
+        <div className="relative inline-block text-left">
           <button
-            key={value}
-            onClick={() => setTripType(value as typeof tripType)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              tripType === value
-                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-            }`}
+            type="button"
+            className="inline-flex justify-between gap-3 items-center px-4 py-[10px] text-sm font-medium dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50"
+            onClick={() => setShowTripDropdown(!showTripDropdown)}
           >
-            {label}
-            {tripType === value && (
-              <span className="ml-2 text-blue-600 dark:text-blue-400">✓</span>
-            )}
+            <span className="flex items-center gap-2">
+              {tripType === "roundtrip" && <ArrowLeftRight size={16} />}
+              {tripType === "oneway" && <ArrowRight size={16} />}
+              {tripType === "multicity" && (
+                <ArrowLeftRight size={16} className="opacity-50" />
+              )}
+              {tripOptions.find((opt) => opt.value === tripType)?.label}
+            </span>
+            <ChevronDown size={16} />
           </button>
-        ))}
+
+          {showTripDropdown && (
+            <div className="absolute z-50 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+              <div className="py-1">
+                {tripOptions.map(({ value, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setShowTripDropdown(false);
+                      handleTripTypeChange(value as typeof tripType);
+                    }}
+                    className={`relative w-full flex items-center px-4 py-2 text-sm text-left ${
+                      tripType === value
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    {tripType === value && (
+                      <Check
+                        size={16}
+                        className="absolute left-3 text-blue-500"
+                      />
+                    )}
+                    <span className="pl-6">{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Passenger Selector */}
+        <div className="relative">
+          <button
+            onClick={() => setIsPassengerModalOpen(true)}
+            className="flex items-center gap-3 px-4 py-[10px]  dark:border-gray-600 rounded-lg dark:hover:border-gray-500 transition-colors dark:bg-gray-700 dark:text-white  hover:bg-gray-50"
+          >
+            <Users size={16} />
+            <span>{getTotalPassengers()}</span>
+            <ChevronDown size={16} />
+          </button>
+
+          {isPassengerModalOpen && (
+            <PassengerSelector
+              passengers={passengers}
+              onPassengersChange={setPassengers}
+              onClose={() => setIsPassengerModalOpen(false)}
+            />
+          )}
+        </div>
+
+        {/* Cabin Class Selector */}
+        <div className="relative inline-block text-left">
+          <button
+            type="button"
+            className="inline-flex justify-between items-center gap-3 px-4 py-[10px] text-sm font-medium  dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50"
+            onClick={() => setShowCabinDropdown((prev) => !prev)}
+          >
+            <span className="flex items-center gap-2">
+              {cabinOptions.find((opt) => opt.value === cabinClass)?.label}
+            </span>
+            <ChevronDown size={16} />
+          </button>
+
+          {showCabinDropdown && (
+            <div className="absolute z-50 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+              <div className="py-1">
+                {cabinOptions.map(({ value, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setCabinClass(value as typeof cabinClass);
+                      setShowCabinDropdown(false);
+                    }}
+                    className={`relative w-full flex items-center px-4 py-2 text-sm text-left ${
+                      cabinClass === value
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    {cabinClass === value && (
+                      <Check
+                        size={16}
+                        className="absolute left-3 text-blue-500"
+                      />
+                    )}
+                    <span className="pl-6">{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Flight Legs */}
@@ -446,45 +564,6 @@ useEffect(() => {
             <span>Add flight</span>
           </button>
         )}
-      </div>
-
-      {/* Passenger and Class Selection */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        {/* Passenger Selector */}
-        <div className="relative">
-          <button
-            onClick={() => setIsPassengerModalOpen(true)}
-            className="flex items-center space-x-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors dark:bg-gray-700 dark:text-white"
-          >
-            <Users size={20} />
-            <span>
-              {getTotalPassengers()} passenger
-              {getTotalPassengers() !== 1 ? "s" : ""}
-            </span>
-            <ChevronDown size={16} />
-          </button>
-
-          {isPassengerModalOpen && (
-            <PassengerSelector
-              passengers={passengers}
-              onPassengersChange={setPassengers}
-              onClose={() => setIsPassengerModalOpen(false)}
-            />
-          )}
-        </div>
-
-        {/* Cabin Class Selector */}
-        <select
-          value={cabinClass}
-          onChange={(e) => setCabinClass(e.target.value as typeof cabinClass)}
-          className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-        >
-          {cabinOptions.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
       </div>
 
       {/* Search Button */}
