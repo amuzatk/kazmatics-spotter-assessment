@@ -265,7 +265,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-6xl mx-auto">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-6xl mx-auto relative">
       {/* Trip Type, Passenger and Class Selection */}
       <div className="flex flex-wrap md:flex-nowrap items-center gap-4 mb-6">
         {/* Trip Type Selector */}
@@ -383,166 +383,152 @@ const SearchForm: React.FC<SearchFormProps> = ({
       {/* Flight Legs */}
       <div className="w-full  mb-6 flex flex-col  ">
         {legs.map((leg, index) => (
-          <div key={index} className="relative w-full">
+          <div key={index} className="w-full">
             {/* <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center"> */}
-            <div className="relative flex flex-col md:flex-row  gap-4 items-center mb-4">
+            <div className="w-full flex flex-col md:flex-row  gap-4 items-center mb-4">
               {/* From Airport */}
-              {/* <div className="md:col-span-4 relative"> */}
-               <div className="w-full  relative">
-                <div className="relative">
-                  <Circle
-                    size={16}
-                    className="absolute left-3 top-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Where from?"
-                    value={airportSearchQuery[`${index}-origin`] ?? ""}
-                    onChange={(e) => {
-                      handleAirportSearch(e.target.value, index, "origin");
-                    }}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  />
+              <div className="w-full lg:w-[60%] relative flex flex-col md:flex-row justify-evenly gap-4 ">
+                {/* <div className="md:col-span-4 relative"> */}
+                <div className="w-full  relative">
+                  <div className="relative">
+                    <Circle size={16} className="absolute left-4 top-6" />
+                    <input
+                      type="text"
+                      placeholder="Where from?"
+                      value={airportSearchQuery[`${index}-origin`] ?? ""}
+                      onChange={(e) => {
+                        handleAirportSearch(e.target.value, index, "origin");
+                      }}
+                      className="w-full h-[60px] pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  {/* Airport Dropdown */}
+                  {showAirportDropdown?.index === index &&
+                    showAirportDropdown?.field === "origin" &&
+                    airportSearchResults.length > 0 && (
+                      <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        {airportSearchResults.map((airport) => (
+                          <button
+                            key={airport.skyId}
+                            onClick={() =>
+                              selectAirport(airport, index, "origin")
+                            }
+                            className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-600 border-b border-gray-100 dark:border-gray-600 last:border-b-0"
+                          >
+                            <div className="font-medium text-gray-900 dark:text-white">
+                              {airport.presentation.title}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {airport.presentation.subtitle}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                 </div>
 
-                {/* Airport Dropdown */}
-                {showAirportDropdown?.index === index &&
-                  showAirportDropdown?.field === "origin" &&
-                  airportSearchResults.length > 0 && (
-                    <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {airportSearchResults.map((airport) => (
-                        <button
-                          key={airport.skyId}
-                          onClick={() =>
-                            selectAirport(airport, index, "origin")
-                          }
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-600 border-b border-gray-100 dark:border-gray-600 last:border-b-0"
-                        >
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {airport.presentation.title}
-                          </div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {airport.presentation.subtitle}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                <button
+                  onClick={() => swapAirports(index)}
+                  className="hidden md:flex items-center justify-center top-8 left-[284px] z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
+                  aria-label="Swap airports"
+                >
+                  <ArrowLeftRight size={18} />
+                </button>
+
+                {/* To Airport */}
+                <div className="w-full  relative">
+                  <div className="relative">
+                    <MapPin size={16} className="absolute left-5 top-6" />
+                    <input
+                      type="text"
+                      placeholder="Where to?"
+                      value={airportSearchQuery[`${index}-destination`] ?? ""}
+                      onChange={(e) => {
+                        handleAirportSearch(
+                          e.target.value,
+                          index,
+                          "destination"
+                        );
+                      }}
+                      className="w-full h-[60px] pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  {/* Airport Dropdown */}
+                  {showAirportDropdown?.index === index &&
+                    showAirportDropdown?.field === "destination" &&
+                    airportSearchResults.length > 0 && (
+                      <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        {airportSearchResults.map((airport) => (
+                          <button
+                            key={airport.skyId}
+                            onClick={() =>
+                              selectAirport(airport, index, "destination")
+                            }
+                            className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-600 border-b border-gray-100 dark:border-gray-600 last:border-b-0"
+                          >
+                            <div className="font-medium text-gray-900 dark:text-white">
+                              {airport.presentation.title}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {airport.presentation.subtitle}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                </div>
               </div>
 
-
-              
-               <button
-    onClick={() => swapAirports(index)}
-    className="hidden md:flex items-center justify-center top-6 left-[390px] z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
-    aria-label="Swap airports"
-  >
-    <ArrowLeftRight size={18} />
-  </button>
-
-              {/* To Airport */}
-              {/* <div className="md:col-span-4 relative"> */}
-               <div className="w-full  relative">
-                <div className="relative">
-                  <MapPin
-                    size={16}
-                    className="absolute left-3 top-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Where to?"
-                    value={airportSearchQuery[`${index}-destination`] ?? ""}
-                    onChange={(e) => {
-                      handleAirportSearch(e.target.value, index, "destination");
-                    }}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  />
+              <div className="w-full lg:w-[40%] flex flex-col md:flex-row gap-4">
+                {/* Date */}
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="date"
+                      value={leg.date}
+                      onChange={(e) => updateLeg(index, "date", e.target.value)}
+                      className="w-full h-[60px] px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                    <Calendar
+                      size={20}
+                      className="absolute right-3 top-3 text-gray-400 pointer-events-none"
+                    />
+                  </div>
                 </div>
 
-                {/* Airport Dropdown */}
-                {showAirportDropdown?.index === index &&
-                  showAirportDropdown?.field === "destination" &&
-                  airportSearchResults.length > 0 && (
-                    <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {airportSearchResults.map((airport) => (
-                        <button
-                          key={airport.skyId}
-                          onClick={() =>
-                            selectAirport(airport, index, "destination")
-                          }
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-600 border-b border-gray-100 dark:border-gray-600 last:border-b-0"
-                        >
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {airport.presentation.title}
-                          </div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {airport.presentation.subtitle}
-                          </div>
-                        </button>
-                      ))}
+                {/* Return Date for Round Trip */}
+                {tripType === "roundtrip" && (
+                  <div className="flex-1">
+                    <div className="relative">
+                      <input
+                        type="date"
+                        placeholder="Return"
+                        value={returnDate}
+                        onChange={(e) => setReturnDate(e.target.value)}
+                        className="w-full h-[60px] px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      />
+                      <Calendar
+                        size={20}
+                        className="absolute right-3 top-3 text-gray-400 pointer-events-none"
+                      />
                     </div>
-                  )}
-              </div>
+                  </div>
+                )}
 
-              {/* Date */}
-              <div className="md:col-span-2">
-                <div className="relative">
-                  <input
-                    type="date"
-                    value={leg.date}
-                    onChange={(e) => updateLeg(index, "date", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  />
-                  <Calendar
-                    size={20}
-                    className="absolute right-3 top-3 text-gray-400 pointer-events-none"
-                  />
-                </div>
-                {leg.date && (
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {formatDate(leg.date)}
+                {/* Remove Button for Multi-city */}
+                {tripType === "multicity" && legs.length > 1 && (
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => removeFlight(index)}
+                      className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                    >
+                      <X size={20} />
+                    </button>
                   </div>
                 )}
               </div>
-
-        {/* Return Date for Round Trip */}
-        {tripType === "roundtrip" && (
-
-                <div className="md:col-span-2">
-              <div className="relative">
-                <input
-                  type="date"
-                  placeholder="Return"
-                  value={returnDate}
-                  onChange={(e) => setReturnDate(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                />
-                <Calendar
-                  size={20}
-                  className="absolute right-3 top-3 text-gray-400 pointer-events-none"
-                />
-              </div>
-              {/* {returnDate && (
-                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {formatDate(returnDate)}
-                </div>
-              )} */}
-            </div>)}
-
-              {/* Remove Button for Multi-city */}
-              {tripType === "multicity" && (
-                <div 
-                // className="md:col-span-1 flex justify-center"
-                >
-                  <button
-                    onClick={() => removeFlight(index)}
-                    className="p-2 text-red-400 hover:text-red-600 transition-colors"
-                    disabled={legs.length === 1}
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         ))}
@@ -558,17 +544,33 @@ const SearchForm: React.FC<SearchFormProps> = ({
         )}
       </div>
 
-      {/* Search Button */}
-      <button
+      {/* Explore Button */}
+      <div>
+        
+      </div>
+      {/* <button
         onClick={handleSearch}
         disabled={
           loading || !legs[0].origin || !legs[0].destination || !legs[0].date
         }
-        className="flex items-center justify-center space-x-2 w-full md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+        className="flex items-center justify-center space-x-2 w-full md:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-[30px] transition-colors"
       >
-        <Search size={20} />
-        <span>{loading ? "Searching..." : "Search"}</span>
-      </button>
+        <Search size={15} />
+        <span>{loading ? "Exploring..." : "Explore"}</span>
+      </button> */}
+      <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
+  <button
+    onClick={handleSearch}
+    disabled={
+      loading || !legs[0].origin || !legs[0].destination || !legs[0].date
+    }
+    className="flex items-center justify-center space-x-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-[30px] shadow-lg transition-colors"
+  >
+    <Search size={15} />
+    <span>{loading ? "Exploring..." : "Explore"}</span>
+  </button>
+</div>
+
     </div>
   );
 };
