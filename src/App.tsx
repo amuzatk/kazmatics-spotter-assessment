@@ -9,7 +9,6 @@ import { FlightApiService } from "./services/flightApi";
 import { initializeTheme, applyTheme } from "./utils/theme";
 import FlightMapSection from "./components/FlightMapSection";
 import FlightCard from "./components/FlightCard";
-import HeroBG from "../assets/google-flight-bg.png";
 
 type AppView = "search" | "results" | "detail" | "booking";
 
@@ -110,32 +109,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors pt-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors pt-16 pb-28">
       <Header theme={theme} onThemeChange={handleThemeChange} />
       {view && (
-        // <div
-        //     className=" h-[290px] w-[75%] m-auto">
-        //     <img
-        //       // src="/assets/google-flight-bg.jpg"
-        //       src="/assets/bg4.avif"
-        //       // src="/assets/bg2.webp"
-        //       alt="Flights"
-        //        className=" w-full h-full object-cover"
-        //       />
-        //   </div>
         <div className="relative h-[290px] w-[75%] mx-auto overflow-hidden">
-    <img
-      src="/assets/bg4.avif"
-      alt="Flights"
-      className="w-full h-full object-cover"
-    />
-    {/* Overlay to add transparency/dark effect */}
-    {/* <div className="absolute inset-0 bg-black/40" /> */}
-  </div>
-      ) }
+          <img
+            src="/assets/bg4.avif"
+            alt="Flights"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border border-blue-500">
-        {/* {view === "search" && (
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {view === "search" && (
           <div className="space-y-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -150,33 +137,9 @@ function App() {
             />
 
             <FlightMapSection />
-
             <FlightCard />
           </div>
-        )} */}
-
-        {view === "search" && (
-          <div className="space-y-8">
-
-
-              {/* Title */}
-              <div className="text-center">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                  Flights
-                </h1>
-              </div>
-
-              {/* Rest of your search content */}
-              <SearchForm
-                onSearch={handleSearch}
-                loading={loading}
-                defaultValues={searchParams} />
-
-              <FlightMapSection />
-              <FlightCard />
-            </div>
-)}
-
+        )}
 
         {view === "results" && (
           <div className="space-y-6">

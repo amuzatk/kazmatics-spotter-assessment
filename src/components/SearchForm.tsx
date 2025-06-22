@@ -263,9 +263,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setReturnDate("");
     setAirportSearchQuery({});
   };
-      // <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mx-auto relative border border-red-500">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mx-auto relative">
       {/* Trip Type, Passenger and Class Selection */}
       <div className="flex flex-wrap md:flex-nowrap items-center gap-4 mb-6">
         {/* Trip Type Selector */}
@@ -384,11 +383,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <div className="w-full  mb-6 flex flex-col  ">
         {legs.map((leg, index) => (
           <div key={index} className="w-full">
-            {/* <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center"> */}
             <div className="w-full flex flex-col md:flex-row  gap-4 items-center mb-4">
               {/* From Airport */}
               <div className="w-full lg:w-[60%] relative flex flex-col md:flex-row justify-evenly gap-4 ">
-                {/* <div className="md:col-span-4 relative"> */}
                 <div className="w-full  relative">
                   <div className="relative">
                     <Circle size={16} className="absolute left-4 top-6" />
@@ -430,7 +427,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
                 <button
                   onClick={() => swapAirports(index)}
-                  className="hidden md:flex items-center justify-center top-8 left-[284px] z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
+                  className="hidden md:flex items-center justify-center top-8 right-1/2 z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
+                  // className="hidden md:flex items-center justify-center top-8 left-[284px] z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
                   aria-label="Swap airports"
                 >
                   <ArrowLeftRight size={18} />
