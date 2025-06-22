@@ -7,6 +7,8 @@ import BookingFlow from "./components/BookingFlow";
 import { Flight, SearchParams } from "./types/flight";
 import { FlightApiService } from "./services/flightApi";
 import { initializeTheme, applyTheme } from "./utils/theme";
+import FlightMapSection from "./components/FlightMapSection";
+import FlightCard from "./components/FlightCard";
 
 type AppView = "search" | "results" | "detail" | "booking";
 
@@ -107,21 +109,16 @@ function App() {
   };
 
   return (
-    // <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors pt-16">
-
       <Header theme={theme} onThemeChange={handleThemeChange} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border border-blue-500">
         {view === "search" && (
           <div className="space-y-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Find your perfect flight
+                Flights
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                Search and compare flights from hundreds of airlines
-              </p>
             </div>
 
             <SearchForm
@@ -129,6 +126,10 @@ function App() {
               loading={loading}
               defaultValues={searchParams}
             />
+
+            <FlightMapSection />
+
+            <FlightCard />
           </div>
         )}
 

@@ -263,9 +263,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setReturnDate("");
     setAirportSearchQuery({});
   };
-
+      // <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-6xl mx-auto relative">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mx-auto relative border border-red-500">
       {/* Trip Type, Passenger and Class Selection */}
       <div className="flex flex-wrap md:flex-nowrap items-center gap-4 mb-6">
         {/* Trip Type Selector */}
@@ -545,32 +545,18 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </div>
 
       {/* Explore Button */}
-      <div>
-        
-      </div>
-      {/* <button
-        onClick={handleSearch}
-        disabled={
-          loading || !legs[0].origin || !legs[0].destination || !legs[0].date
-        }
-        className="flex items-center justify-center space-x-2 w-full md:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-[30px] transition-colors"
-      >
-        <Search size={15} />
-        <span>{loading ? "Exploring..." : "Explore"}</span>
-      </button> */}
       <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
-  <button
-    onClick={handleSearch}
-    disabled={
-      loading || !legs[0].origin || !legs[0].destination || !legs[0].date
-    }
-    className="flex items-center justify-center space-x-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-[30px] shadow-lg transition-colors"
-  >
-    <Search size={15} />
-    <span>{loading ? "Exploring..." : "Explore"}</span>
-  </button>
-</div>
-
+        <button
+          onClick={handleSearch}
+          disabled={
+            loading || !legs[0].origin || !legs[0].destination || !legs[0].date
+          }
+          className="flex items-center justify-center space-x-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-[30px] shadow-lg transition-colors"
+        >
+          <Search size={15} />
+          <span>{loading ? "Exploring..." : "Explore"}</span>
+        </button>
+      </div>
     </div>
   );
 };
