@@ -112,8 +112,29 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors pt-16">
       <Header theme={theme} onThemeChange={handleThemeChange} />
+      {view && (
+        // <div
+        //     className=" h-[290px] w-[75%] m-auto">
+        //     <img
+        //       // src="/assets/google-flight-bg.jpg"
+        //       src="/assets/bg4.avif"
+        //       // src="/assets/bg2.webp"
+        //       alt="Flights"
+        //        className=" w-full h-full object-cover"
+        //       />
+        //   </div>
+        <div className="relative h-[290px] w-[75%] mx-auto overflow-hidden">
+    <img
+      src="/assets/bg4.avif"
+      alt="Flights"
+      className="w-full h-full object-cover"
+    />
+    {/* Overlay to add transparency/dark effect */}
+    {/* <div className="absolute inset-0 bg-black/40" /> */}
+  </div>
+      ) }
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border border-blue-500">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border border-blue-500">
         {/* {view === "search" && (
           <div className="space-y-8">
             <div className="text-center">
@@ -135,33 +156,25 @@ function App() {
         )} */}
 
         {view === "search" && (
-  <div className="space-y-8">
-    {/* Hero Background Section */}
-    <div
-      className="w-full h-64 bg-cover bg-center "
-      style={{
-        backgroundImage: "url('/public/assets/google-flight-bg.jpg')",
-      }}
-    >
-    </div>
+          <div className="space-y-8">
 
-    {/* Title */}
-    <div className="text-center">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        Flights
-      </h1>
-    </div>
 
-    {/* Rest of your search content */}
-    <SearchForm
-      onSearch={handleSearch}
-      loading={loading}
-      defaultValues={searchParams}
-    />
+              {/* Title */}
+              <div className="text-center">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  Flights
+                </h1>
+              </div>
 
-    <FlightMapSection />
-    <FlightCard />
-  </div>
+              {/* Rest of your search content */}
+              <SearchForm
+                onSearch={handleSearch}
+                loading={loading}
+                defaultValues={searchParams} />
+
+              <FlightMapSection />
+              <FlightCard />
+            </div>
 )}
 
 
