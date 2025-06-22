@@ -9,6 +9,7 @@ import { FlightApiService } from "./services/flightApi";
 import { initializeTheme, applyTheme } from "./utils/theme";
 import FlightMapSection from "./components/FlightMapSection";
 import FlightCard from "./components/FlightCard";
+import HeroBG from "../assets/google-flight-bg.png";
 
 type AppView = "search" | "results" | "detail" | "booking";
 
@@ -113,7 +114,7 @@ function App() {
       <Header theme={theme} onThemeChange={handleThemeChange} />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border border-blue-500">
-        {view === "search" && (
+        {/* {view === "search" && (
           <div className="space-y-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -131,7 +132,38 @@ function App() {
 
             <FlightCard />
           </div>
-        )}
+        )} */}
+
+        {view === "search" && (
+  <div className="space-y-8">
+    {/* Hero Background Section */}
+    <div
+      className="w-full h-64 bg-cover bg-center "
+      style={{
+        backgroundImage: "url('/public/assets/google-flight-bg.jpg')",
+      }}
+    >
+    </div>
+
+    {/* Title */}
+    <div className="text-center">
+      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        Flights
+      </h1>
+    </div>
+
+    {/* Rest of your search content */}
+    <SearchForm
+      onSearch={handleSearch}
+      loading={loading}
+      defaultValues={searchParams}
+    />
+
+    <FlightMapSection />
+    <FlightCard />
+  </div>
+)}
+
 
         {view === "results" && (
           <div className="space-y-6">
