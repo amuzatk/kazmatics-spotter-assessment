@@ -5,13 +5,14 @@ const FlightMapSection = () => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    // Set a timeout to show error if map doesn't load within 5 seconds
     const timeout = setTimeout(() => {
       if (!isMapLoaded) setHasError(true);
     }, 5000);
 
     return () => clearTimeout(timeout);
   }, [isMapLoaded]);
+
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   return (
     <div className="mx-auto">
@@ -39,7 +40,7 @@ const FlightMapSection = () => {
             loading="lazy"
             allowFullScreen
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=Abuja"
+            src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=Abuja`}
             onLoad={() => setIsMapLoaded(true)}
             onError={() => setHasError(true)}
           />

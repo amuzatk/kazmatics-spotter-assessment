@@ -1,9 +1,6 @@
 import { Airport, FlightSearchResponse, FlightLeg } from "../types/flight";
 
-// const API_KEY = '4c7e42704bmsh5aea0b0cf55f724p1c2b4bjsn87e3df59bb8a';//amuzatk
-const API_KEY = "a8ab0fde93mshfe1f003ff600b0ep1462dfjsn55b27345acb2"; //amuzatk0001
-// const API_KEY = '7ee7dca62dmsh80e88ef042cdd90p1259aejsn9c2109fa98d3';//amuzatk001
-// 7ee7dca62dmsh80e88ef042cdd90p1259aejsn9c2109fa98d3
+const API_KEY = import.meta.env.VITE_RAPIDAPI_KEY;
 
 const BASE_URL = "https://sky-scrapper.p.rapidapi.com/api";
 
@@ -513,44 +510,6 @@ export class FlightApiService {
     return new Promise((resolve) => setTimeout(() => resolve(mockData), 500));
   }
 
-  // static async searchFlights(params: {
-  //   originSkyId: string;
-  //   destinationSkyId: string;
-  //   date: string;
-  //   originEntityId?: string;
-  //   destinationEntityId?: string;
-  //   returnDate?: string;
-  //   cabinClass?: string;
-  //   adults?: number;
-  //   children?: number;
-  // }): Promise<FlightSearchResponse> {
-  //   try {
-  //     const queryParams = new URLSearchParams({
-  //       originSkyId: params.originSkyId,
-  //       destinationSkyId: params.destinationSkyId,
-  //       date: params.date,
-  //     });
-
-  //     if (params.originEntityId) queryParams.append('originEntityId', params.originEntityId);
-  //     if (params.destinationEntityId) queryParams.append('destinationEntityId', params.destinationEntityId);
-  //     if (params.returnDate) queryParams.append('returnDate', params.returnDate);
-  //     if (params.cabinClass) queryParams.append('cabinClass', params.cabinClass);
-  //     if (params.adults !== undefined) queryParams.append('adults', params.adults.toString());
-  //     if (params.children !== undefined) queryParams.append('children', params.children.toString());
-
-  //     const response = await fetch(`http://localhost:5000/api/flights?${queryParams}`);
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     return await response.json();
-  //   } catch (error) {
-  //     console.error('Error searching flights via proxy:', error);
-  //     throw error;
-  //   }
-  // }
-
   static async searchFlightsComplete(
     sessionId: string,
     currency = "USD",
@@ -737,45 +696,4 @@ export class FlightApiService {
       throw error;
     }
   }
-
-  // static async searchMultiCityFlights(legs: FlightLeg[], params: {
-  //   cabinClass: string;
-  //   adults: number;
-  //   children?: number;
-  //   sortBy?: string;
-  //   currency?: string;
-  //   market?: string;
-  //   countryCode?: string;
-  // }): Promise<FlightSearchResponse> {
-  //   try {
-  //     const legsParam = encodeURIComponent(JSON.stringify(legs));
-  //     const queryParams = new URLSearchParams({
-  //       legs: legsParam,
-  //       cabinClass: params.cabinClass,
-  //       adults: params.adults.toString(),
-  //       sortBy: params.sortBy || 'best',
-  //       currency: params.currency || 'USD',
-  //       market: params.market || 'en-US',
-  //       countryCode: params.countryCode || 'US',
-  //     });
-
-  //     if (params.children) {
-  //       queryParams.append('children', params.children.toString());
-  //     }
-
-  //     const response = await fetch(
-  //       `${BASE_URL}/v1/flights/searchFlightsMultiStops?${queryParams}`,
-  //       { headers }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     return await response.json();
-  //   } catch (error) {
-  //     console.error('Error searching multi-city flights:', error);
-  //     throw error;
-  //   }
-  // }
 }
