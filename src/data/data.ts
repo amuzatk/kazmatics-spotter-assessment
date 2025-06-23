@@ -193,3 +193,23 @@ export const getMockMultiCityFlights = (legs: FlightLeg[]): FlightSearchResponse
     destinationImageUrl: "",
   },
 });
+
+
+  export const cabinOptions = [
+    { value: "economy", label: "Economy" },
+    { value: "premium_economy", label: "Premium economy" },
+    { value: "business", label: "Business" },
+    { value: "first", label: "First" },
+  ];
+
+  export const tripOptions = [
+    { value: "roundtrip", label: "Round trip" },
+    { value: "oneway", label: "One-way" },
+    { value: "multicity", label: "Multi-city" },
+  ];
+
+   export const sortOptions = [
+    { value: "best", label: "Best" },
+    { value: "cheapest", label: "Cheapest" },
+    { value: "fastest", label: "Fastest" },
+  ];

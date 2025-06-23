@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Plane, ChevronDown, ChevronUp } from "lucide-react";
 import { Flight } from "../types/flight";
+import { sortOptions } from "../data/data";
+import { formatDate, formatDuration, formatTime } from "../utils/formats";
 
 interface FlightResultsProps {
   flights: Flight[];
@@ -17,35 +19,6 @@ const FlightResults: React.FC<FlightResultsProps> = ({
   const [expandedFlights, setExpandedFlights] = useState<Set<string>>(
     new Set()
   );
-
-  const sortOptions = [
-    { value: "best", label: "Best" },
-    { value: "cheapest", label: "Cheapest" },
-    { value: "fastest", label: "Fastest" },
-  ];
-
-  const formatDuration = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  };
-
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
 
   const toggleFlightExpansion = (flightId: string) => {
     const newExpanded = new Set(expandedFlights);
