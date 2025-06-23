@@ -428,7 +428,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <button
                   onClick={() => swapAirports(index)}
                   className="hidden md:flex items-center justify-center top-8 right-1/2 z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
-                  // className="hidden md:flex items-center justify-center top-8 left-[284px] z-10 absolute  translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 shadow"
                   aria-label="Swap airports"
                 >
                   <ArrowLeftRight size={18} />
